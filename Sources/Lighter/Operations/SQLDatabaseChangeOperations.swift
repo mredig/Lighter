@@ -3,8 +3,11 @@
 //  Copyright © 2022-2024 ZeeZide GmbH.
 //
 
+#if canImport(SQLite3)
 import SQLite3
-
+#elseif canImport(LocalSQLite)
+import LocalSQLite
+#endif
 /**
  * A mixin protocol to add record update/insert/delete functions.
  *

@@ -3,7 +3,11 @@
 //  Copyright © 2022 ZeeZide GmbH.
 //
 
+#if canImport(SQLite3)
 import SQLite3
+#elseif canImport(LocalSQLite)
+import LocalSQLite
+#endif
 import struct Foundation.URL
 
 // Note: Things in here are INTENTIONALLY internal, so that can be only used

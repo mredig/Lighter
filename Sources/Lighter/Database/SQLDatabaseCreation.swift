@@ -19,8 +19,11 @@ public protocol SQLCreationStatementsHolder {
 import struct Foundation.URL
 import class  Foundation.FileManager
 #endif
+#if canImport(SQLite3)
 import SQLite3
-
+#elseif canImport(LocalSQLite)
+import LocalSQLite
+#endif
 
 public extension SQLDatabase {
   

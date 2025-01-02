@@ -2,8 +2,12 @@
 //  Created by Helge Heß.
 //  Copyright © 2022 ZeeZide GmbH.
 //
-
+#if canImport(SQLite3)
+import SQLite3
 import func SQLite3.sqlite3_column_int64
+#elseif canImport(LocalSQLite)
+import LocalSQLite
+#endif
 
 /**
  * Runs fetch queries against a certain SQL table/view.

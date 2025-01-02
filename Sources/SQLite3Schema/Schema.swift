@@ -69,7 +69,11 @@ public struct Schema: Hashable {
 
 // MARK: - Fetching
 
+#if canImport(SQLite3)
 import SQLite3
+#elseif canImport(LocalSQLite)
+import LocalSQLite
+#endif
 
 public extension Schema {
   

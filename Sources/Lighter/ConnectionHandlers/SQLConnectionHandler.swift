@@ -5,7 +5,11 @@
 
 import struct Foundation.URL
 import struct Foundation.TimeInterval
+#if canImport(SQLite3)
 import SQLite3
+#elseif canImport(LocalSQLite)
+import LocalSQLite
+#endif
 
 /**
  * An object used to open a database connection.

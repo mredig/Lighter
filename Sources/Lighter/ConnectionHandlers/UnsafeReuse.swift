@@ -3,8 +3,13 @@
 //  Copyright © 2022 ZeeZide GmbH.
 //
 
+#if canImport(SQLite3)
+import SQLite3
 import func SQLite3.sqlite3_close
 import let  SQLite3.SQLITE_FAIL
+#elseif canImport(LocalSQLite)
+import LocalSQLite
+#endif
 import struct Foundation.URL
 
 extension SQLConnectionHandler {

@@ -1,0 +1,15 @@
+{
+  "originHash" : "ffc234843dad3900605d3fcb9d30d3bca641376ec5bce4d3aa4e04cc5adf0f67",
+  "pins" : [
+    {
+      "identity" : "localsqlite",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mredig/LocalSQLite.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "0b35c12ec2130203528210fe795e6e96fcef8ef1"
+      }
+    }
+  ],
+  "version" : 3
+}

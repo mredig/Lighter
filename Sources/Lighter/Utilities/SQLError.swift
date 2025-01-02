@@ -2,9 +2,13 @@
 //  Created by Helge Heß.
 //  Copyright © 2022-2024 ZeeZide GmbH.
 //
-
+#if canImport(SQLite3)
+import SQLite3
 import func SQLite3.sqlite3_errcode
 import func SQLite3.sqlite3_errmsg
+#elseif canImport(LocalSQLite)
+import LocalSQLite
+#endif
 
 /**
  * A raw SQLite3 error.

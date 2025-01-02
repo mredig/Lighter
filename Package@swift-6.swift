@@ -26,6 +26,10 @@ var package = Package(
             targets: [ "Generate Code for SQLite" ])
   ],
   
+  dependencies: [
+    .package(url: "https://github.com/mredig/LocalSQLite.git", branch: "main")
+  ],
+  
   targets: [
     .systemLibrary(name: "SQLite3",
                    path: "Sources/SQLite3-Linux",
@@ -34,10 +38,11 @@ var package = Package(
     // A small library used to fetch schema information from SQLite3 databases.
     .target(name: "SQLite3Schema",
             dependencies: [
-              .target(name: "SQLite3",
-                      condition: .when(platforms: [
-                        .linux, .android, .windows, .openbsd
-                      ])),
+//              .target(name: "SQLite3",
+//                      condition: .when(platforms: [
+//                        .linux, .android, .windows, .openbsd
+//                      ])),
+              "LocalSQLite"
             ],
             exclude: [ "README.md" ]),
     
@@ -47,10 +52,11 @@ var package = Package(
     // standalone lib).
     .target(name: "Lighter", 
             dependencies: [
-              .target(name: "SQLite3",
-                      condition: .when(platforms: [
-                        .linux, .android, .windows, .openbsd
-                      ])),
+//              .target(name: "SQLite3",
+//                      condition: .when(platforms: [
+//                        .linux, .android, .windows, .openbsd
+//                      ])),
+              "LocalSQLite"
             ],
             swiftSettings: settings),
 

@@ -24,8 +24,11 @@ public protocol SQLDatabaseOperations {
 }
 
 
+#if canImport(SQLite3)
 import SQLite3
-
+#elseif canImport(LocalSQLite)
+import LocalSQLite
+#endif
 // MARK: - Raw SQL Fetches
 
 public extension SQLDatabaseOperations {

@@ -3,8 +3,11 @@
 //  Copyright © 2022 ZeeZide GmbH.
 //
 
+#if canImport(SQLite3)
 import SQLite3
-
+#elseif canImport(LocalSQLite)
+import LocalSQLite
+#endif
 // Filter operations use regular Swift closures for filtering results (as part
 // of a SQL `WHERE` expression).
 
