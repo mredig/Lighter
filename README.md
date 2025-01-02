@@ -3,6 +3,8 @@
        align="right" width="64" height="64" />
 </h2>
 
+***This is just a proof of concept to prove that it's possible to build against the staticly linked sdk for swift. Please use the official Lighter repo for real work.***
+
 **Lighter** is a set of technologies applying code generation to access 
 [SQLite3](https://www.sqlite.org) databases from 
 [Swift](https://swift.org/), e.g. in iOS applications or on the server.
