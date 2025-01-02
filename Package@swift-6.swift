@@ -8,6 +8,45 @@ let settings = [ SwiftSetting.enableExperimentalFeature("StrictConcurrency") ]
 let settings = [ SwiftSetting ]()
 #endif
 
+var env: [String: String] = [:]
+#if canImport(Foundation)
+import Foundation
+env = ProcessInfo.processInfo.environment
+#endif
+
+let useSPMSQLite = env["SPM_SQLITE"] == "true"
+
+let dependencies: [Package.Dependency]
+let sqliteTargetDep: Target.Dependency
+let systemTarget: Target?
+if useSPMSQLite {
+  dependencies = [
+    .package(url: "https://github.com/mredig/LocalSQLite.git", branch: "main"),
+  ]
+  sqliteTargetDep = 
+    .product(
+      name: "SQLite3",
+      package: "LocalSQLite",
+      condition: .when(platforms: [
+        .linux, .android, .windows, .openbsd
+      ])
+    )
+  systemTarget = nil
+  print("SPM SQLite")
+} else {
+  dependencies = []
+  sqliteTargetDep = .target(
+    name: "SQLite3",
+    condition: .when(platforms: [
+      .linux, .android, .windows, .openbsd
+    ]))
+  systemTarget = .systemLibrary(
+    name: "SQLite3",
+    path: "Sources/SQLite3-Linux",
+    providers: [ .apt(["libsqlite3-dev"]) ])
+  print("System SQLite")
+}
+
 var package = Package(
   name: "Lighter",
 
@@ -26,18 +65,14 @@ var package = Package(
             targets: [ "Generate Code for SQLite" ])
   ],
   
+  dependencies: dependencies,
+  
   targets: [
-    .systemLibrary(name: "SQLite3",
-                   path: "Sources/SQLite3-Linux",
-                   providers: [ .apt(["libsqlite3-dev"]) ]),
-    
+    systemTarget,
     // A small library used to fetch schema information from SQLite3 databases.
     .target(name: "SQLite3Schema",
             dependencies: [
-              .target(name: "SQLite3",
-                      condition: .when(platforms: [
-                        .linux, .android, .windows, .openbsd
-                      ])),
+              sqliteTargetDep,
             ],
             exclude: [ "README.md" ]),
     
@@ -47,10 +82,7 @@ var package = Package(
     // standalone lib).
     .target(name: "Lighter", 
             dependencies: [
-              .target(name: "SQLite3",
-                      condition: .when(platforms: [
-                        .linux, .android, .windows, .openbsd
-                      ])),
+              sqliteTargetDep,
             ],
             swiftSettings: settings),
 
@@ -141,4 +173,5 @@ var package = Package(
     .testTarget(name: "NorthwindTests",
                 dependencies: [ "LighterGeneration" ])
   ]
+    .compactMap(\.self)
 )
